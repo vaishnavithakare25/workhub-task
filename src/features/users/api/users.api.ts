@@ -1,8 +1,17 @@
 import { apiClient } from "../../../api";
 import { UsersResponseDTO } from "../dto/user-response.dto";
-
-export async function getUsers(): Promise<UsersResponseDTO> {
-  const response = await apiClient.get<UsersResponseDTO>("/users");
+import { UserQueryParams } from "../types/user-query.type";
+export const getUsers = async (
+  params: UserQueryParams
+) => {
+  const response = await apiClient.get("/users", {
+    params: {
+      limit: params.limit,
+      skip: params.skip,
+      sortBy: params.sortBy,
+      order: params.order,
+    },
+  });
 
   return response.data;
-}
+};
