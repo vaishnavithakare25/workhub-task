@@ -2,7 +2,7 @@ import { useUsers } from "../hooks/useUsers";
 import { useSearchParams } from "react-router-dom";
 import UserTable from "../components/UserTable"
 import UserToolbar from "../components/UserToolbar";
-
+import Pagination from "../../../components/shared/Pagination/Pagination";
 
 function UsersPage() {
 const [searchParams, setSearchParams] = useSearchParams();
@@ -24,6 +24,10 @@ const pageSize = Number(searchParams.get("pageSize") ?? "10");
     return <h2>Something went wrong.</h2>;
   }
 
+  const totalPages = data
+  ? Math.ceil(data.total / pageSize)
+  : 1;
+
   return (
     <div>
       <h1 className="mb-6 text-3xl font-bold">
@@ -42,36 +46,25 @@ const pageSize = Number(searchParams.get("pageSize") ?? "10");
 />
 
 
-       <UserTable users={data ?? []} />
+        <UserTable users={data?.users ?? []} />
 
         <div className="mt-6 flex items-center gap-3">
-      <button
-        // onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-        onClick={() =>
-  setSearchParams({
-    page: String(Math.max(page - 1, 1)),
-    pageSize: String(pageSize),
-  })
-}
- disabled={page === 1}
-        className="rounded bg-gray-200 px-4 py-2 disabled:opacity-50"
-      >
-        Previous
-      </button>
-
-      <span>Page {page}</span>
-      <button
-        // onClick={() => setPage((prev) => prev + 1)}
-        onClick={() =>
-  setSearchParams({
-    page: String(page + 1),
-    pageSize: String(pageSize),
-  })
-}
-        className="rounded bg-blue-500 px-4 py-2 text-white"
-      >
-        Next
-      </button>
+      <Pagination
+  page={page}
+  totalPages={totalPages}
+  onPrevious={() =>
+    setSearchParams({
+      page: String(Math.max(page - 1, 1)),
+      pageSize: String(pageSize),
+    })
+  }
+  onNext={() =>
+    setSearchParams({
+      page: String(page + 1),
+      pageSize: String(pageSize),
+    })
+  }
+/>
        </div>
 
     </div>
