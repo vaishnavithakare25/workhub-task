@@ -1,5 +1,8 @@
 export interface UserModel {
   id: number;
+  firstName: string;
+
+  lastName: string;
 
   fullName: string;
 
@@ -11,7 +14,7 @@ export interface UserModel {
 
   gender: string;
 
-  role: string;
+   role: "admin" | "moderator" | "user";
 
   image: string;
 }

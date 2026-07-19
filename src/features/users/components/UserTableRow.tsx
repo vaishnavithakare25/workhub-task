@@ -1,5 +1,6 @@
 import { UserModel } from "../model/user.model";
-
+import UserRoleBadge from "./UserRoleBagde";
+import UserActions from "./UserActions";
 interface UserTableRowProps {
   user: UserModel;
 }
@@ -11,11 +12,14 @@ function UserTableRow({
     <tr className="border-t hover:bg-gray-50">
 
       <td className="px-4 py-3">
-        <img
-          src={user.image}
-          alt={user.fullName}
-          className="h-10 w-10 rounded-full"
-        />
+         <img
+  src={
+    user.image ||
+    "https://ui-avatars.com/api/?name=" +
+      encodeURIComponent(user.fullName)
+  }
+  alt={user.fullName}
+/>
       </td>
 
       <td className="px-4 py-3">
@@ -27,20 +31,18 @@ function UserTableRow({
       </td>
 
       <td className="px-4 py-3">
-        {user.role}
-      </td>
+  <UserRoleBadge role={user.role} />
+</td>
 
       <td className="px-4 py-3">
         {user.age}
       </td>
 
-      <td className="px-4 py-3 text-center">
+       <td className="px-4 py-3 text-center">
+  <UserActions userId={user.id} />
+</td>
 
-        <button className="rounded bg-blue-500 px-3 py-1 text-sm text-white">
-          View
-        </button>
-
-      </td>
+    
 
     </tr>
   );

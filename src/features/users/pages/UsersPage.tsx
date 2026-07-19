@@ -3,26 +3,93 @@ import { useSearchParams } from "react-router-dom";
 import UserTable from "../components/UserTable"
 import UserToolbar from "../components/UserToolbar";
 import Pagination from "../../../components/shared/Pagination/Pagination";
-
+import { ErrorState, Skeleton, EmptyState } from "../../../components/shared";
+import { UserQueryParams } from "../types/user-query.type";
 function UsersPage() {
 const [searchParams, setSearchParams] = useSearchParams();
+
+const search = searchParams.get("search") ?? "";
+const role = searchParams.get("role") ?? "";
+const sortBy: UserQueryParams["sortBy"] =
+  (searchParams.get("sortBy") as UserQueryParams["sortBy"]) ?? "firstName";
+
+const order: UserQueryParams["order"] =
+  (searchParams.get("order") as UserQueryParams["order"]) ?? "asc";
 
 const page = Number(searchParams.get("page") ?? "1");
 
 const pageSize = Number(searchParams.get("pageSize") ?? "10");
-  const params = {
+ const params = {
   limit: pageSize,
   skip: (page - 1) * pageSize,
+  sortBy,
+  order,
 };
   const { data, isLoading, error } = useUsers(params);
 
-  if (isLoading) {
-    return <h2>Loading users...</h2>;
+  const filteredUsers =
+  data?.users.filter((user) => {
+    const matchesSearch =
+      user.firstName
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      user.lastName
+        .toLowerCase()
+        .includes(search.toLowerCase()) ||
+      user.email
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+         const matchesRole =
+      role === "" || user.role === role;
+
+    return matchesSearch && matchesRole;
+  }) ?? [];
+
+  const sortedUsers = [...filteredUsers].sort((a, b) => {
+  const first = a[sortBy as keyof typeof a];
+  const second = b[sortBy as keyof typeof b];
+
+  if (
+    typeof first === "string" &&
+    typeof second === "string"
+  ) {
+    return order === "asc"
+      ? first.localeCompare(second)
+      : second.localeCompare(first);
   }
 
-  if (error) {
-    return <h2>Something went wrong.</h2>;
+  if (
+    typeof first === "number" &&
+    typeof second === "number"
+  ) {
+    return order === "asc"
+      ? first - second
+      : second - first;
   }
+
+  return 0;
+});
+   if (isLoading) {
+  return (
+    <div className="space-y-4">
+      {Array.from({ length: 8 }).map((_, index) => (
+        <Skeleton
+          key={index}
+          className="h-16 w-full"
+        />
+      ))}
+    </div>
+  );
+}
+ if (error) {
+  return (
+    <ErrorState
+      title="Failed to Load Users"
+      description="Unable to fetch users. Please try again."
+    />
+  );
+}
 
   const totalPages = data
   ? Math.ceil(data.total / pageSize)
@@ -34,21 +101,82 @@ const pageSize = Number(searchParams.get("pageSize") ?? "10");
         Users
       </h1>
 
-      <UserToolbar
-    search=""
-    role=""
-    sortBy="firstName"
-    order="asc"
-    onSearchChange={() => {}}
-    onRoleChange={() => {}}
-    onSortByChange={() => {}}
-    onOrderChange={() => {}}
+ <UserToolbar
+  search={search}
+  role={role}
+  sortBy={sortBy}
+  order={order}
+  onSearchChange={(value) =>
+    setSearchParams({
+      page: "1",
+      pageSize: String(pageSize),
+      search: value,
+      role,
+      sortBy,
+      order,
+    })
+  }
+  onRoleChange={(value) =>
+    setSearchParams({
+      page: "1",
+      pageSize: String(pageSize),
+      search,
+      role: value,
+      sortBy,
+      order,
+    })
+  }
+  onSortByChange={(value) =>
+    setSearchParams({
+      page: "1",
+      pageSize: String(pageSize),
+      search,
+      role,
+      sortBy: value,
+      order,
+    })
+  }
+  onOrderChange={(value) =>
+    setSearchParams({
+      page: "1",
+      pageSize: String(pageSize),
+      search,
+      role,
+      sortBy,
+      order: value,
+    })
+  }
 />
 
+      {/* <div className="space-y-4">
+        {data?.map((user) => (
+          <div
+            key={user.id}
+            className="rounded-lg border bg-white p-4 shadow-sm"
+          >
+            <h2 className="text-lg font-semibold">
+              {user.fullName}
+            </h2>
 
-        <UserTable users={data?.users ?? []} />
+            <p>{user.email}</p>
 
-        <div className="mt-6 flex items-center gap-3">
+            <p>{user.role}</p>
+          </div>
+        ))}
+      </div> */}
+      {/* <UserTable users={data ?? []} /> */}
+      {/* <UserTable users={filteredUsers} /> */}
+      {/* <UserTable users={sortedUsers} /> */}
+      {sortedUsers.length === 0 ? (
+  <EmptyState
+    title="No Users Found"
+    description="Try changing your search or filter."
+  />
+) : (
+  <UserTable users={sortedUsers} />
+)}
+      <div className="mt-6 flex items-center gap-3">
+
       <Pagination
   page={page}
   totalPages={totalPages}
@@ -65,8 +193,7 @@ const pageSize = Number(searchParams.get("pageSize") ?? "10");
     })
   }
 />
-       </div>
-
+    </div>
     </div>
   );
 }

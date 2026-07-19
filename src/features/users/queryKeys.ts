@@ -1,4 +1,5 @@
-import { UserQueryParams } from "./types/user-query.types";
+
+import { UserQueryParams } from "./types/user-query.type";
 export const userKeys = {
   all: ["users"] as const,
 
@@ -9,7 +10,7 @@ export const userKeys = {
 
   list: (params: UserQueryParams) =>
     [...userKeys.lists(), params] as const,
-  
+
   details: () => [...userKeys.all, "detail"] as const,
 
   detail: (id: number) =>
