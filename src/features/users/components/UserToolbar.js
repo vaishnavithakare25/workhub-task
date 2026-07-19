@@ -1,7 +1,0 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
-import { Link } from "react-router-dom";
-import { Button } from "../../../components/shared";
-function UserToolbar({ search, role, sortBy, order, onSearchChange, onRoleChange, onSortByChange, onOrderChange, }) {
-    return (_jsxs("div", { className: "mb-6 flex flex-wrap items-center gap-4", children: [_jsx("input", { type: "text", placeholder: "Search users...", value: search, onChange: (e) => onSearchChange(e.target.value), className: "rounded border px-3 py-2" }), _jsxs("select", { value: role, onChange: (e) => onRoleChange(e.target.value), className: "rounded border px-3 py-2", children: [_jsx("option", { value: "", children: "All Roles" }), _jsx("option", { value: "admin", children: "Administrator" }), _jsx("option", { value: "moderator", children: "Manager" }), _jsx("option", { value: "user", children: "Contributor" })] }), _jsxs("select", { value: sortBy, onChange: (e) => onSortByChange(e.target.value), className: "rounded border px-3 py-2", children: [_jsx("option", { value: "firstName", children: "Name" }), _jsx("option", { value: "age", children: "Age" })] }), _jsxs("select", { value: order, onChange: (e) => onOrderChange(e.target.value), className: "rounded border px-3 py-2", children: [_jsx("option", { value: "asc", children: "Ascending" }), _jsx("option", { value: "desc", children: "Descending" })] }), _jsx(Link, { to: "/users/new", children: _jsx(Button, { children: "Create User" }) })] }));
-}
-export default UserToolbar;
