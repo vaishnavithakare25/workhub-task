@@ -12,8 +12,8 @@ function Sidebar() {
   const logout = useAuthStore((state) => state.logout);
 
   const user = useAuthStore((state) => state.user);
-  console.log("Username:", user?.username);
-  console.log("Role:", user?.role);
+  // console.log("Username:", user?.username);
+  // console.log("Role:", user?.role);
 
   const accessibleRoutes = APP_ROUTES.filter((route) =>
     can(route.permission)
