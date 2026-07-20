@@ -1,5 +1,4 @@
 import { apiClient } from "../../../api";
-import { UsersResponseDTO } from "../dto/user-response.dto";
 import { UserQueryParams } from "../types/user-query.type";
 export const getUsers = async (
   params: UserQueryParams

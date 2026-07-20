@@ -3,10 +3,11 @@ type SkeletonProps = {
 };
 
 function Skeleton({
-  className = "",
+  className = "loading",
 }: SkeletonProps) {
   return (
     <div
+      
       className={`animate-pulse rounded bg-gray-200 ${className}`}
     />
   );

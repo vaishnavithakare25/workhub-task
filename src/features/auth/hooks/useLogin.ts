@@ -12,7 +12,7 @@ export function useLogin() {
       // Fetch complete user details
       const user = await getUserById(loginResponse.id);
 
-      // Merge both responses
+      
       return {
         ...loginResponse,
         role: user.role,

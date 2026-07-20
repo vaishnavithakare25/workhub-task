@@ -8,7 +8,6 @@ import ProfilePage from "../../features/profile/pages/ProfilePage";
 import SettingsPage from "../../features/settings/pages/SettingsPage";
 
 import ProtectedRoute from "./ProtectedRoute";
-// import AppLayout from "../../layouts/AppLayout";
 import AppLayout from "../../components/layout/AppLayout";
 import ForbiddenPage from "../../features/error/pages/ForbiddenPage"
 import { PERMISSIONS } from "../../constants/permissions";
@@ -32,7 +31,7 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         >
-          {/* <Route path="/dashboard" element={<DashboardPage />} /> */}
+        
           <Route
             path="/dashboard"
             element={
@@ -41,7 +40,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
-          {/* <Route path="/users" element={<UsersPage />} /> */}
+        
           <Route
             path="/users"
             element={
@@ -77,7 +76,7 @@ function AppRoutes() {
         }
       />
 
-          {/* <Route path="/work-items" element={<WorkItemsPage />} /> */}
+          
           <Route
             path="/work-items"
             element={
@@ -114,7 +113,7 @@ function AppRoutes() {
 />
 
 
-          {/* <Route path="/profile" element={<ProfilePage />} /> */}
+         
           <Route
             path="/profile"
             element={
@@ -123,7 +122,7 @@ function AppRoutes() {
               </ProtectedRoute>
             }
           />
-          {/* <Route path="/settings" element={<SettingsPage />} /> */}
+          
           <Route
             path="/settings"
             element={

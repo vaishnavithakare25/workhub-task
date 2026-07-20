@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserFormData } from "../schemas/user.schema";
 import { UserModel } from "../model/user.model";
 import { useUpdateUser } from "../hooks/useUpdateUser";
-import { BackButton } from "../../../components/shared";
+import { BackButton, Skeleton } from "../../../components/shared";
 
 
 function EditUserPage() {
@@ -17,8 +17,10 @@ function EditUserPage() {
   const { data: user, isLoading } = useUserDetail(id);
    const updateUser = useUpdateUser();
 
-  if (isLoading) {
-    return <p>Loading...</p>;
+ if (isLoading) {
+    return (
+      <Skeleton className="h-64 w-full" />
+    );
   }
 
   if (!user) {

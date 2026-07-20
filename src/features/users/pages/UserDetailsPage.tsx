@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 
 // import {Card} from "../../../components/common/index"
-import { Card, BackButton } from "../../../components/shared";
+import { Card, BackButton, Skeleton } from "../../../components/shared";
 import { useUserDetail } from "../hooks/useUserDetail";
 
 function UserDetailsPage() {
@@ -16,7 +16,9 @@ function UserDetailsPage() {
   } = useUserDetail(id);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <Skeleton className="h-64 w-full" />
+    );
   }
 
   if (isError || !user) {

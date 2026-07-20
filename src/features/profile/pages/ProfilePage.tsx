@@ -1,7 +1,6 @@
 import { Card } from "../../../components/shared";
-// import { useAuthStore } from "../../auth/store/authStore";
 import {useAuthStore} from "../../auth/store/auth.store"
-// import {Card} from "../../../components/common"
+
 function ProfilePage() {
   const user = useAuthStore((state) => state.user);
 

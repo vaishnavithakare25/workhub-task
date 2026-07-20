@@ -26,7 +26,7 @@ function Sidebar() {
 
   return (
     <aside className="flex h-screen w-64 flex-col bg-slate-900 text-white shadow-lg">
-      {/* Logo */}
+     
       <div className="border-b border-slate-700 p-5">
         <h1 className="text-2xl font-bold tracking-wide">
           WorkHub
