@@ -2,6 +2,7 @@ import apiClient from "../../../api/client";
 import { WorkItemModel } from "../model/work-item.model";
 import { TodoDto } from "../dto/work-item.dto";
 import { mapTodoDtoToWorkItem } from "../mapper/work-item.mapper";
+import { ApiTodo } from "../types/ApiTodo.type";
 import {
   getLocalWorkItems,
   saveLocalWorkItems,
@@ -9,7 +10,9 @@ import {
 export const getWorkItems = async () => {
   const response = await apiClient.get("/todos");
 
-  const apiItems = response.data.todos.map((todo: any) => ({
+
+
+  const apiItems = response.data.todos.map((todo: ApiTodo) => ({
     id: todo.id,
     title: todo.todo,
     description: "",

@@ -1,4 +1,4 @@
-import { AxiosError, InternalAxiosRequestConfig } from "axios";
+import { AxiosError, InternalAxiosRequestConfig, AxiosResponse } from "axios";
 import { useAuthStore } from "../features/auth/store/auth.store";
 
 export const requestInterceptor = (
@@ -19,7 +19,7 @@ export const requestErrorInterceptor = (error: AxiosError) => {
 
 
 
-export const responseInterceptor = (response: any) => {
+export const responseInterceptor = (response: AxiosResponse) => {
   return response;
 };
 
